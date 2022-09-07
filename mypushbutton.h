@@ -14,6 +14,10 @@ public:
     void zoom1();
     void zoom2();
 
+    void mousePressEvent(QMouseEvent *e) override;
+    void mouseReleaseEvent(QMouseEvent *e) override;
+
+
     QString normalImg;
     QString PreeImg;
 

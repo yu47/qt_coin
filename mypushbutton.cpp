@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QPropertyAnimation>
 #include <QEasingCurve>
+#include <QMouseEvent>
 MyPushButton::MyPushButton(QString normalImg, QString PreeImg)
 {
     this->normalImg = normalImg;
@@ -18,6 +19,8 @@ MyPushButton::MyPushButton(QString normalImg, QString PreeImg)
     this->setIconSize(QSize(pix.width(),pix.height()));
 
 }
+
+
 
 void MyPushButton::zoom1()
 {
@@ -40,4 +43,42 @@ void MyPushButton::zoom2()
     animation1->setEasingCurve(QEasingCurve::OutBounce);
     animation1->start();
 
+}
+
+void MyPushButton::mousePressEvent(QMouseEvent *e)
+{
+    if(this->PreeImg != ""){
+        QPixmap pix;
+        bool ret = pix.load(this->PreeImg);
+        if(!ret){
+            qDebug() << this->PreeImg << "图片加载失败！";
+            return;
+        }
+        this->setFixedSize(pix.width(),pix.height());
+        this->setIcon(pix);
+        this->setStyleSheet("QpushButton{border:0}");
+        this->setIconSize(QSize(pix.width(),pix.height()));
+
+
+
+    }
+    return QPushButton::mousePressEvent(e);
+}
+
+void MyPushButton::mouseReleaseEvent(QMouseEvent *e)
+{
+    if(this->PreeImg != ""){
+        QPixmap pix;
+        bool ret = pix.load(this->normalImg);
+        if(!ret){
+            qDebug() << this->normalImg << "图片加载失败！";
+            return;
+        }
+        this->setFixedSize(pix.width(),pix.height());
+        this->setIcon(pix);
+        this->setStyleSheet("QpushButton{border:0}");
+        this->setIconSize(QSize(pix.width(),pix.height()));
+
+    }
+    return QPushButton::mouseReleaseEvent(e);
 }

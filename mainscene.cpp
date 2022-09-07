@@ -3,6 +3,8 @@
 #include <qpixmap.h>
 #include <qpainter.h>
 #include "mypushbutton.h"
+#include "chooselevelscene.h"
+#include <QTimer>
 MainScene::MainScene(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainScene)
@@ -17,15 +19,31 @@ MainScene::MainScene(QWidget *parent)
     star_btn->setParent(this);
     star_btn->move(this->width() * 0.5 - star_btn->width()*0.5,this->height()*0.7);
 
+
+    ChooseLevelScene *chooseScene = new ChooseLevelScene;
+
+
+
     connect(star_btn,&MyPushButton::clicked,[=](){
 //        star_btn->move(this->width() *0.5 - star_btn->width() * 0.45 , this->height() * 0.72);
 //        star_btn->setFixedSize(star_btn->width()*0.9 , star_btn->height()*0.9);
 //        star_btn->setSizePolicy()
-
         star_btn->zoom1();
         star_btn->zoom2();
+
+        QTimer::singleShot(300,this,[=](){
+            this->hide();
+            chooseScene->setGeometry(this->geometry());
+            chooseScene->show();
+        });
     });
 
+
+    connect(chooseScene,&ChooseLevelScene::choosesignals,[=](){
+        this->setGeometry(chooseScene->geometry());
+        chooseScene->close();
+        this->show();
+    });
 }
 
 MainScene::~MainScene()
