@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "qpainter.h"
+#include <QMediaPlayer>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainScene; }
 QT_END_NAMESPACE
@@ -15,6 +16,8 @@ public:
     MainScene(QWidget *parent = nullptr);
     ~MainScene();
     void paintEvent(QPaintEvent *);
+    QMediaPlayer *player;
+
 private slots:
     void on_actionquit_triggered();
 

@@ -19,10 +19,7 @@ MainScene::MainScene(QWidget *parent)
     star_btn->setParent(this);
     star_btn->move(this->width() * 0.5 - star_btn->width()*0.5,this->height()*0.7);
 
-
     ChooseLevelScene *chooseScene = new ChooseLevelScene;
-
-
 
     connect(star_btn,&MyPushButton::clicked,[=](){
 //        star_btn->move(this->width() *0.5 - star_btn->width() * 0.45 , this->height() * 0.72);
@@ -30,7 +27,10 @@ MainScene::MainScene(QWidget *parent)
 //        star_btn->setSizePolicy()
         star_btn->zoom1();
         star_btn->zoom2();
-
+        player = new QMediaPlayer();
+        player->setMedia(QUrl("qrc:/res/myDouDZ.wav"));
+        player->setVolume(60);
+        player->play();
         QTimer::singleShot(300,this,[=](){
             this->hide();
             chooseScene->setGeometry(this->geometry());

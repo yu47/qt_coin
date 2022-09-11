@@ -6,6 +6,7 @@
 #include <QMenuBar>
 #include <QMenu>
 #include <QLabel>
+#include <QDebug>
 ChooseLevelScene::ChooseLevelScene(QWidget *parent) : QMainWindow(parent)
 {
     this->setFixedSize(350,630);
@@ -44,6 +45,19 @@ ChooseLevelScene::ChooseLevelScene(QWidget *parent) : QMainWindow(parent)
         levenum->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
         levenum->setFixedSize(levebtn->width(),levebtn->height());
         levenum->setAttribute(Qt::WA_TransparentForMouseEvents);
+
+        connect(levebtn,&MyPushButton::clicked,[=](){
+            playscene = new PlayScene(i+1);
+            playscene->setGeometry(this->geometry());
+            this->hide();
+            playscene->show();
+            connect(playscene,&PlayScene::playsignal,[=](){
+                this->setGeometry(playscene->geometry());
+                playscene->close();
+                this->show();
+            });
+        });
+
 
     }
 
